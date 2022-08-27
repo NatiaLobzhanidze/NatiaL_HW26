@@ -25,5 +25,13 @@ class FavoriteListViewController: UIViewController {
         }
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        coreData.getFavoriteNotes { [weak self] results in
+            self?.favoriteList = results
+            self?.tableView.reloadData()
+        }
+    }
 
 }
