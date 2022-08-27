@@ -16,13 +16,13 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        strNotes.count
+        notes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.deque(class: TableViewCell.self, for: indexPath)
-        cell.textlb?.text = "\( strNotes[indexPath.row])"
-        
+        cell.textlb?.text =  notes[indexPath.row].note
+
         return cell
     }
     
@@ -32,13 +32,13 @@ extension ViewController : UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView,commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            coreDataManager.deleteData(fromEntity: "Note", elementDescription: strNotes[indexPath.row])
-            strNotes.remove(at: indexPath.row)
+            coreDataManager.deleteData(fromEntity: "Note", elementDescription: notes[indexPath.row].note!)
+            notes.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        addAlertToButton(for: false , updateValue: strNotes[indexPath.row])
+        addAlertToButton(for: false , updateValue: notes[indexPath.row])
         tableView.reloadData()
     }
 }

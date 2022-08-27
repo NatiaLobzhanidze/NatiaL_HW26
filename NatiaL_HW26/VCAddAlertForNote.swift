@@ -10,20 +10,21 @@ import CoreData
 
 extension ViewController {
     
-    func addAlertToButton(for create: Bool, updateValue: String? ) {
+    func addAlertToButton(for create: Bool, updateValue: Note? ) {
     
         let alert = UIAlertController(title: "Add", message: "New Note", preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned self] action in
                                            
             guard let textField = alert.textFields?.first, let newNote = textField.text else { return }
             if create {
-                self.coreDataManager.create(newNote: newNote, toEntity: "Note", array: &strNotes)
+                self.coreDataManager.create(newNote: newNote, toEntity: "Note", array: &notes)
                 
             } else {
                 guard let updateValue = updateValue else { return }
-                self.coreDataManager.updateValueOf(objectName: updateValue, by: newNote)
-                if let e = strNotes.firstIndex(of: updateValue) {
-                    strNotes[e] = newNote
+                self.coreDataManager.updateValueOf(objectName: updateValue.note!, by: newNote)
+                
+                if let e = notes.firstIndex(of: updateValue) {
+                    notes[e].note = newNote
                 }
                 self.tableView.reloadData()
             }

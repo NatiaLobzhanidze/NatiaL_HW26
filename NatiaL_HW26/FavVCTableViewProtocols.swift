@@ -15,6 +15,7 @@ extension FavoriteListViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
       let cell = tableView.deque(class: FavoritesTableViewCell.self, for: indexPath)
         cell.textLabel?.text = favoriteList[indexPath.row]
+        
         return cell
     }
     

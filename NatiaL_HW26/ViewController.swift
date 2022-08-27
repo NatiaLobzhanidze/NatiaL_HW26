@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var notes = [NSManagedObject]()
+    var notes = [Note]()
     
     var coreDataManager: CoreDataManager!
     
@@ -26,14 +26,14 @@ class ViewController: UIViewController {
         tableView.registerNib(class: TableViewCell.self)
         coreDataManager.getFetchedDatas { [weak self] results in
           
-            self?.strNotes = results
+            self?.notes = results
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
         self.coreDataManager.getFetchedDatas {[weak self] result in
-            self?.strNotes = result
+            self?.notes = result
         }
     }
     

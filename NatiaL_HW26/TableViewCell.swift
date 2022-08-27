@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 
 class TableViewCell: UITableViewCell {
+    
     @IBOutlet weak var textlb: UILabel!
     @IBOutlet weak var makeFavBtn: UIButton!
     
@@ -39,5 +40,12 @@ class TableViewCell: UITableViewCell {
         
     }
     
-
+    func configure(from item : Note) {
+        self.textlb.text = item.note
+        if item.isFavorite {
+            makeFavBtn.tintColor = .yellow
+        } else {
+            makeFavBtn.tintColor = .tintColor
+        }
+    }
 }

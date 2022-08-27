@@ -22,11 +22,11 @@ protocol CoreDataManagerProtocol: ViewContextProvider {
     func getFetchedDatas(completion: @escaping ([String]) -> (Void))
 }
 
-final class CoreDataManager: CoreDataManagerProtocol {
+final class CoreDataManager: ViewContextProvider {
     
     // MARK: CREATE
     
-    func create(newNote: String, toEntity: String,   array: inout [String]) {
+    func create(newNote: String, toEntity: String,   array: inout [Note]) {
         
         guard  let entity = NSEntityDescription.entity(forEntityName: toEntity,
                                                        in: viewContext) else { return }
@@ -38,7 +38,7 @@ final class CoreDataManager: CoreDataManagerProtocol {
         do {
             try viewContext.save()
             if let noteObj = noteObj as? Note {
-                array.insert(noteObj.note ?? "...." , at: 0)
+                array.insert(noteObj, at: 0)
             }
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
@@ -46,16 +46,16 @@ final class CoreDataManager: CoreDataManagerProtocol {
     }
     
     //MARK: FETCH
-    func getFetchedDatas(completion: @escaping ([String]) -> (Void)) {
+    func getFetchedDatas(completion: @escaping ([Note]) -> (Void)) {
         
-        var strArr = [String]()
+        var strArr = [Note]()
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Note")
        
         do {
             let fetchedElements = try viewContext.fetch(fetchRequest)
             for element in fetchedElements {
                 if let elemet = element as? Note {
-                    strArr.append(elemet.note!)
+                    strArr.append(elemet)
                 }
             }
             completion(strArr)
